@@ -1,3 +1,5 @@
+import pytest
+
 from src.item import Item
 
 
@@ -19,3 +21,27 @@ def test_all_items_list(item):
     # Проверка, что экземпляр класса Item добавлен в список всех товаров
     assert len(Item.all) == 1
     assert Item.all[0] == item
+
+
+def test_name(item):
+    assert item.name == 'Товар'
+    item.name = "Смартфон"
+    assert item.name == 'Смартфон'
+
+def test_name_len_exclclusion(item):
+     with pytest.raises(ValueError) as e:
+         item.name = "СуперСмартфон"
+     assert str(e.value) == "Длина наименования товара превышает 10 символов"
+
+def test_instantiate_from_csv(item):
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+    assert isinstance(Item.all[0], Item)
+
+def test_string_to_number():
+    assert Item.string_to_number("123 ") == 123
+
+def test_string_to_number_exclclusion():
+    with pytest.raises(ValueError) as e:
+        Item.string_to_number("1n3 ")
+    assert str(e.value) == "Ошибка: Невозможно преобразовать строку в число."
