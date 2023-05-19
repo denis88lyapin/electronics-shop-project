@@ -78,7 +78,7 @@ class Item:
     @staticmethod
     def string_to_number(string) -> int:
         try:
-            num = int(math.floor(float(string)))
+            num = int(math.floor(float(string.strip())))
             return num
         except ValueError:
             raise ValueError("Ошибка: Невозможно преобразовать строку в число.")
