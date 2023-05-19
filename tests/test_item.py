@@ -28,18 +28,22 @@ def test_name(item):
     item.name = "Смартфон"
     assert item.name == 'Смартфон'
 
+
 def test_name_len_exclclusion(item):
-     with pytest.raises(ValueError) as e:
-         item.name = "СуперСмартфон"
-     assert str(e.value) == "Длина наименования товара превышает 10 символов"
+    with pytest.raises(ValueError) as e:
+        item.name = "СуперСмартфон"
+    assert str(e.value) == "Длина наименования товара превышает 10 символов"
+
 
 def test_instantiate_from_csv(item):
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
 
+
 def test_string_to_number():
     assert Item.string_to_number("123 ") == 123
+
 
 def test_string_to_number_exclclusion():
     with pytest.raises(ValueError) as e:
