@@ -29,7 +29,7 @@ def test_name(item):
     assert item.name == 'Смартфон'
 
 
-def test_name_len_exclclusion(item):
+def test_name_len_exclusion(item):
     with pytest.raises(ValueError) as e:
         item.name = "СуперСмартфон"
     assert str(e.value) == "Длина наименования товара превышает 10 символов"
@@ -45,7 +45,7 @@ def test_string_to_number():
     assert Item.string_to_number("123 ") == 123
 
 
-def test_string_to_number_exclclusion():
+def test_string_to_number_exclusion():
     with pytest.raises(ValueError) as e:
         Item.string_to_number("1n3 ")
     assert str(e.value) == "Ошибка: Невозможно преобразовать строку в число."
