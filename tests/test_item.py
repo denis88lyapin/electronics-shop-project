@@ -3,6 +3,14 @@ import pytest
 from src.item import Item
 
 
+def test_repr(item):
+    assert repr(item) == "Item('Товар', 10.0, 5)"
+
+
+def test_str(item):
+    assert str(item) == 'Товар'
+
+
 def test_calculate_total_price(item):
     # Проверка, что возвращает правильную общую стоимость товара
     expected_total_price = item.price * item.quantity
