@@ -23,11 +23,16 @@ class Item:
         self.quantity = quantity
         Item.all.append(self)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
+
+    def __add__(self, other) -> int:
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        raise ValueError('Складывать можно только объекты Item и дочерние от них.')
 
     def calculate_total_price(self) -> float:
         """
