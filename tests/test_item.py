@@ -37,10 +37,10 @@ def test_name(item):
     assert item.name == 'Смартфон'
 
 
-def test_name_len_exclusion(item):
+def test_name_len_exclusion():
     with pytest.raises(ValueError) as e:
-        item.name = "СуперСмартфон"
-    assert str(e.value) == "Длина наименования товара превышает 10 символов"
+        item = Item("СуперСмартфон", 7000000, 1)
+        assert str(e.value) == "Длина наименования товара превышает 10 символов"
 
 
 def test_instantiate_from_csv(item):
