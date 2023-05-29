@@ -56,4 +56,14 @@ def test_string_to_number():
 def test_string_to_number_exclusion():
     with pytest.raises(ValueError) as e:
         Item.string_to_number("1n3 ")
-    assert str(e.value) == "Ошибка: Невозможно преобразовать строку в число."
+        assert str(e.value) == "Ошибка: Невозможно преобразовать строку в число."
+
+
+def test_add(item, phone):
+    assert item + phone == 10
+
+
+def test_add_exclusion(item):
+    with pytest.raises(ValueError) as e:
+        item + 10
+        assert str(e.value) == 'Складывать можно только объекты Item и дочерние от них.'
