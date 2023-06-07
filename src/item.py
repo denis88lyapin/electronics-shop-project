@@ -67,13 +67,13 @@ class Item:
             raise ValueError("Длина наименования товара превышает 10 символов")
 
     @classmethod
-    def instantiate_from_csv(cls) -> None:
+    def instantiate_from_csv(cls, file) -> None:
         """
         класс-метод, инициализирующий экземпляры класса `Item`
         данными из файла _src/items.csv_
         """
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        csv_file = os.path.join(current_dir, 'items.csv')
+        csv_file = os.path.join(current_dir, file)
         Item.all = []
         try:
             with open(csv_file, encoding="cp1251") as csvfile:
@@ -85,9 +85,9 @@ class Item:
                     else:
                         raise InstantiateCSVError
                 except InstantiateCSVError as error:
-                    print(error)
+                    print(error, file)
         except FileNotFoundError:
-            print("Отсутствует файл item.csv")
+            print(f"Отсутствует файл {file}")
 
     @staticmethod
     def string_to_number(string) -> int:
@@ -96,12 +96,3 @@ class Item:
             return num
         except ValueError:
             raise ValueError("Ошибка: Невозможно преобразовать строку в число.")
-
-
-if __name__ == '__main__':
-    item = Item('Телефон', 10000, 5)
-
-
-    Item.instantiate_from_csv()  # создание объектов из данных файла
-    # assert len(Item.all) == 5  # в файле 5 записей с данными по товарам
-    # print(Item.all[0])
