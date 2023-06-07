@@ -6,7 +6,9 @@ class LanguageMixin:
     Mixin для хранения и изменения раскладки клавиатуры (EN, RU).
     По умолчанию - EN.
     """
-    def __init__(self) -> None:
+    def __init__(self, name: str, price: float, quantity: int) -> None:
+
+        super().__init__(name, price, quantity)
         self._language = "EN"
 
     def change_lang(self) -> object:
@@ -31,14 +33,13 @@ class LanguageMixin:
         raise AttributeError("property 'language' of 'KeyBoard' object has no setter")
 
 
-class KeyBoard(Item, LanguageMixin):
+class KeyBoard(LanguageMixin, Item):
     """
     Класс для товара “клавиатура”
     """
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         super().__init__(name, price, quantity)
-        LanguageMixin.__init__(self)
 
     @property
     def name(self):
