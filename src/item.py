@@ -1,7 +1,7 @@
 import csv
 import math
 import os
-
+from src.instantiate_CSV_error import InstantiateCSVError
 
 class Item:
     """
@@ -75,10 +75,19 @@ class Item:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         csv_file = os.path.join(current_dir, 'items.csv')
         Item.all = []
-        with open(csv_file, encoding="cp1251") as csvfile:
-            item_reader = csv.DictReader(csvfile)
-            for i in item_reader:
-                cls(name=i["name"], price=float(i["price"]), quantity=int(i["quantity"]))
+        try:
+            with open(csv_file, encoding="cp1251") as csvfile:
+                item_reader = csv.DictReader(csvfile)
+                try:
+                    if all(field in item_reader.fieldnames for field in ["name", "price", "quantity"]):
+                        for i in item_reader:
+                            cls(name=i["name"], price=float(i["price"]), quantity=int(i["quantity"]))
+                    else:
+                        raise InstantiateCSVError
+                except InstantiateCSVError as error:
+                    print(error)
+        except FileNotFoundError:
+            print("Отсутствует файл item.csv")
 
     @staticmethod
     def string_to_number(string) -> int:
@@ -87,3 +96,12 @@ class Item:
             return num
         except ValueError:
             raise ValueError("Ошибка: Невозможно преобразовать строку в число.")
+
+
+if __name__ == '__main__':
+    item = Item('Телефон', 10000, 5)
+
+
+    Item.instantiate_from_csv()  # создание объектов из данных файла
+    # assert len(Item.all) == 5  # в файле 5 записей с данными по товарам
+    # print(Item.all[0])
