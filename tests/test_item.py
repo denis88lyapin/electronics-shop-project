@@ -44,9 +44,21 @@ def test_name_len_exclusion():
 
 
 def test_instantiate_from_csv(item):
-    Item.instantiate_from_csv()
+    Item.instantiate_from_csv("items.csv")
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
+
+
+def test_instantiate_from_csv_invalid_file(capfd):
+    Item.instantiate_from_csv("test.csv")
+    captured = capfd.readouterr()
+    assert f"Отсутствует файл test.csv" in captured.out
+
+
+def test_instantiate_from_csv_invalid_data(capfd):
+    Item.instantiate_from_csv("items.csv")
+    captured = capfd.readouterr()
+    assert f"Поврежден файл items.csv" in captured.out
 
 
 def test_string_to_number():
