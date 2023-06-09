@@ -1,7 +1,6 @@
 import pytest
 
 from src.item import Item
-from src.instantiate_CSV_error import InstantiateCSVError
 
 
 def test_repr(item):
@@ -40,12 +39,12 @@ def test_name(item):
 
 def test_name_len_exclusion():
     with pytest.raises(ValueError) as e:
-        item = Item("СуперСмартфон", 7000000, 1)
+        Item("СуперСмартфон", 7000000, 1)
         assert str(e.value) == "Длина наименования товара превышает 10 символов"
 
 
 def test_instantiate_from_csv(item):
-    Item.instantiate_from_csv()
+    Item.instantiate_from_csv(file="../src/items.csv")
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
 
@@ -57,7 +56,7 @@ def test_instantiate_from_csv_invalid_file(capfd):
 
 
 def test_instantiate_from_csv_invalid_data_error(capfd):
-    Item.instantiate_from_csv("test2.csv")
+    Item.instantiate_from_csv("../tests/test2.csv")
     captured = capfd.readouterr()
     assert f"Файл test2.csv поврежден" in captured.out
 
