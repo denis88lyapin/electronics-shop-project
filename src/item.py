@@ -29,7 +29,7 @@ class Item:
     def __str__(self) -> str:
         return f"{self.name}"
 
-    def __add__(self, other) -> int:
+    def __add__(self, other: object) -> int:
         if isinstance(other, Item):
             return self.quantity + other.quantity
         raise ValueError('Складывать можно только объекты Item и дочерние от них.')
@@ -56,7 +56,7 @@ class Item:
         return self._name
 
     @name.setter
-    def name(self, new_name) -> None:
+    def name(self, new_name: str) -> None:
         """
         Сеттер для атрибута _name. Проверяет количество символов.
         Доустимо не более 10-ти.
@@ -67,7 +67,7 @@ class Item:
             raise ValueError("Длина наименования товара превышает 10 символов")
 
     @classmethod
-    def instantiate_from_csv(cls, file) -> None:
+    def instantiate_from_csv(cls, file="items.csv") -> None:
         """
         класс-метод, инициализирующий экземпляры класса `Item`
         данными из файла _src/items.csv_
@@ -78,14 +78,13 @@ class Item:
         try:
             with open(csv_file, encoding="cp1251") as csvfile:
                 item_reader = csv.DictReader(csvfile)
-                try:
-                    if all(field in item_reader.fieldnames for field in ["name", "price", "quantity"]):
-                        for i in item_reader:
-                            cls(name=i["name"], price=float(i["price"]), quantity=int(i["quantity"]))
-                    else:
-                        raise InstantiateCSVError
-                except InstantiateCSVError as error:
-                    print(error, file)
+                if all(field in item_reader.fieldnames for field in ["name", "price", "quantity"]):
+                    for i in item_reader:
+                        cls(name=i["name"], price=float(i["price"]), quantity=int(i["quantity"]))
+                else:
+                    raise InstantiateCSVError("Файл test2.csv поврежден")
+        except InstantiateCSVError as error:
+            print(error)
         except FileNotFoundError:
             print(f"Отсутствует файл {file}")
 

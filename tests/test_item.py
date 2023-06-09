@@ -1,6 +1,7 @@
 import pytest
 
 from src.item import Item
+from src.instantiate_CSV_error import InstantiateCSVError
 
 
 def test_repr(item):
@@ -44,7 +45,7 @@ def test_name_len_exclusion():
 
 
 def test_instantiate_from_csv(item):
-    Item.instantiate_from_csv("items.csv")
+    Item.instantiate_from_csv()
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
 
@@ -55,10 +56,10 @@ def test_instantiate_from_csv_invalid_file(capfd):
     assert f"Отсутствует файл test.csv" in captured.out
 
 
-def test_instantiate_from_csv_invalid_data(capfd):
-    Item.instantiate_from_csv("items.csv")
+def test_instantiate_from_csv_invalid_data_error(capfd):
+    Item.instantiate_from_csv("test2.csv")
     captured = capfd.readouterr()
-    assert f"Поврежден файл items.csv" in captured.out
+    assert f"Файл test2.csv поврежден" in captured.out
 
 
 def test_string_to_number():
