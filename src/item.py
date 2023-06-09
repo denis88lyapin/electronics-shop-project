@@ -82,7 +82,7 @@ class Item:
                     for i in item_reader:
                         cls(name=i["name"], price=float(i["price"]), quantity=int(i["quantity"]))
                 else:
-                    raise InstantiateCSVError("Файл test2.csv поврежден")
+                    raise InstantiateCSVError(f"Файл {file} поврежден")
         except InstantiateCSVError as error:
             print(error)
         except FileNotFoundError:

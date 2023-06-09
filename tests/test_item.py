@@ -58,7 +58,7 @@ def test_instantiate_from_csv_invalid_file(capfd):
 def test_instantiate_from_csv_invalid_data_error(capfd):
     Item.instantiate_from_csv("../tests/test2.csv")
     captured = capfd.readouterr()
-    assert f"Файл test2.csv поврежден" in captured.out
+    assert f"Файл ../tests/test2.csv поврежден" in captured.out
 
 
 def test_string_to_number():
